@@ -77,4 +77,6 @@ dependencies {
     debugImplementation(libs.ui.test.manifest)
 
     implementation(project(":core"))
+    implementation(project(":home::data"))
+    implementation(project(":home::presentation"))
 }
