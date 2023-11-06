@@ -3,6 +3,7 @@ package com.presentation
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -50,7 +51,10 @@ class NewsScreen : Screen {
                     NewsViewState.Progress.Content -> {
                         LazyColumn {
                             items(items = state.feeds) { feed ->
-                                Text(text = feed.title)
+                                Column {
+                                    Text(text = feed.title)
+                                    Text(text = feed.timePublished)
+                                }
                             }
                         }
                     }
