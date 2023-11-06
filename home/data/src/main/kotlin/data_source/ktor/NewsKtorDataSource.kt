@@ -8,8 +8,9 @@ class NewsKtorDataSource(
     private val httpClient: HttpClient
 ) {
 
+    // TODO: change api
     suspend fun getNews(): NewsKtorResponse {
-        return httpClient.get("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=AAPL&apikey=E1L40KWFWPO8A971")
+        return httpClient.get("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=AAPL&apikey=demo")
             .body<NewsKtorResponse>()
     }
 }
