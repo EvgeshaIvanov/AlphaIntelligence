@@ -52,6 +52,14 @@ android {
 
 dependencies {
 
+
+    implementation(libs.voyager.navigation)
+    implementation(libs.voyager.kodein)
+    implementation(libs.voyager.androidx)
+    implementation(libs.voyager.transitions)
+
+    implementation(libs.kodein)
+
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
@@ -67,4 +75,8 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+
+    implementation(project(":core"))
+    implementation(project(":home::data"))
+    implementation(project(":home::presentation"))
 }

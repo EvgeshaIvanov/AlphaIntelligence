@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -34,6 +35,17 @@ android {
 }
 
 dependencies {
+
+    implementation(libs.kodein)
+
+    implementation(libs.voyager.navigation)
+    implementation(libs.voyager.androidx)
+    implementation(libs.voyager.transitions)
+
+    implementation(libs.ktor.core)
+    implementation(libs.ktor.cio)
+    implementation(libs.ktor.json)
+    implementation(libs.ktor.negotiation)
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
