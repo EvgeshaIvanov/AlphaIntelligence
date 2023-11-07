@@ -20,20 +20,20 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.presentation.contract.NewsEvent
-import com.presentation.contract.NewsViewState
+import com.presentation.contract.CoinsEvent
+import com.presentation.contract.CoinsViewState
 
-class NewsScreen : Screen {
+class CoinsScreen : Screen {
     @Composable
     override fun Content() {
-        val newsViewModel = rememberScreenModel<NewsViewModel>()
+        val coinsViewModel = rememberScreenModel<CoinsViewModel>()
 
-        val state by newsViewModel.uiState.collectAsState()
+        val state by coinsViewModel.uiState.collectAsState()
 
         val navigator = LocalNavigator.currentOrThrow
 
         LaunchedEffect(Unit) {
-            newsViewModel.setEvent(NewsEvent.OnCreate)
+            coinsViewModel.setEvent(CoinsEvent.OnCreate)
         }
 
         Surface(
@@ -42,24 +42,24 @@ class NewsScreen : Screen {
         ) {
             Crossfade(targetState = state.progress, label = "News") {
                 when (it) {
-                    NewsViewState.Progress.Loading -> Box(
+                    CoinsViewState.Progress.Loading -> Box(
                         modifier = Modifier
                             .background(Color.Blue)
                             .fillMaxSize()
                     )
 
-                    NewsViewState.Progress.Content -> {
+                    CoinsViewState.Progress.Content -> {
                         LazyColumn {
-                            items(items = state.feeds) { feed ->
+                            items(items = state.coins) { coin ->
                                 Column {
-                                    Text(text = feed.title)
-                                    Text(text = feed.timePublished)
+                                    Text(text = coin.id)
+                                    Text(text = coin.price.toString())
                                 }
                             }
                         }
                     }
 
-                    NewsViewState.Progress.Error -> Box(
+                    CoinsViewState.Progress.Error -> Box(
                         modifier = Modifier
                             .background(Color.Red)
                             .fillMaxSize()
