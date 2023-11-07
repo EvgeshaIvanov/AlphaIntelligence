@@ -1,28 +1,28 @@
-import com.presentation.NewsScreen
-import com.presentation.NewsViewModel
-import data_source.ktor.NewsKtorDataSource
+import com.presentation.CoinsScreen
+import com.presentation.CoinsViewModel
+import data_source.ktor.CoinsKtorDataSource
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.new
-import use_case.NewsUseCase
-import use_case.NewsUseCaseImpl
+import use_case.CoinsUseCase
+import use_case.CoinsUseCaseImpl
 
 val homeModule = DI.Module(
     name = "homeModule",
     init = {
 
         // DataSource
-        bindProvider<NewsKtorDataSource> { new(::NewsKtorDataSource) }
+        bindProvider<CoinsKtorDataSource> { new(::CoinsKtorDataSource) }
 
         // Repository
-        bindProvider<NewsRepository> { new(::NewsRepositoryImpl) }
+        bindProvider<CoinsRepository> { new(::CoinsRepositoryImpl) }
 
         //UseCase
-        bindProvider<NewsUseCase> { new(::NewsUseCaseImpl) }
+        bindProvider<CoinsUseCase> { new(::CoinsUseCaseImpl) }
 
         //
-        bindProvider<NewsViewModel> { new(::NewsViewModel) }
+        bindProvider<CoinsViewModel> { new(::CoinsViewModel) }
 
-        bindProvider<NewsScreen> { new(::NewsScreen) }
+        bindProvider<CoinsScreen> { new(::CoinsScreen) }
     }
 )

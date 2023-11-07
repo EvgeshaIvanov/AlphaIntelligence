@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.ScaleTransition
 import com.alphaintelligence.ui.theme.AlphaIntelligenceTheme
-import com.presentation.NewsScreen
+import com.presentation.CoinsScreen
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalAnimationApi::class)
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AlphaIntelligenceTheme {
                 Navigator(
-                    screen = NewsScreen()
+                    screen = CoinsScreen()
                 ) { navigator ->
                     ScaleTransition(navigator, animationSpec = tween())
                 }
