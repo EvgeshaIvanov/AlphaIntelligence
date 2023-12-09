@@ -8,6 +8,7 @@ data class CoinsViewState(
 ) : UiState {
     data class Coin(
         val id: String = "",
+        val name: String = "",
         val icon: String = "",
         val symbol: String = "",
         val rank: Int = 0,

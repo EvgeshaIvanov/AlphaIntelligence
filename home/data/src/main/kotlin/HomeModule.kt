@@ -17,12 +17,13 @@ val homeModule = DI.Module(
         // Repository
         bindProvider<CoinsRepository> { new(::CoinsRepositoryImpl) }
 
-        //UseCase
+        // UseCase
         bindProvider<CoinsUseCase> { new(::CoinsUseCaseImpl) }
 
-        //
+        // ViewModel
         bindProvider<CoinsViewModel> { new(::CoinsViewModel) }
 
+        // Screen
         bindProvider<CoinsScreen> { new(::CoinsScreen) }
     }
 )

@@ -25,6 +25,12 @@ android {
             )
         }
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.3"
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -47,6 +53,12 @@ dependencies {
     implementation(libs.ktor.json)
     implementation(libs.ktor.negotiation)
 
+    implementation(platform(libs.compose.bom))
+    implementation(libs.activity.compose)
+    implementation(libs.material3)
+    implementation(libs.ui)
+    implementation(libs.ui.graphics)
+    debugImplementation(libs.ui.tooling)
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)

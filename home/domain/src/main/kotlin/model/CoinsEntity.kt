@@ -10,6 +10,7 @@ data class CoinsEntity(
 @Serializable
 data class CoinEntity(
     val id: String,
+    val name: String,
     val icon: String,
     val symbol: String,
     val rank: Int,

@@ -39,6 +39,7 @@ class CoinsViewModel(private val useCase: CoinsUseCase) :
                     coins = result?.feeds?.map { coin ->
                         CoinsViewState.Coin(
                             id = coin.id,
+                            name = coin.name,
                             icon = coin.icon,
                             symbol = coin.symbol,
                             rank = coin.rank,
