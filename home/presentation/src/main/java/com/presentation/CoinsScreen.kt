@@ -33,7 +33,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
@@ -41,6 +40,8 @@ import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil.compose.AsyncImage
+import com.core.compose.CoinsLoader
+import com.core.compose.bounceClick
 import com.presentation.contract.CoinsEvent
 import com.presentation.contract.CoinsViewState
 
@@ -64,10 +65,11 @@ class CoinsScreen : Screen {
             Crossfade(targetState = state.progress, label = "News") {
                 when (it) {
                     CoinsViewState.Progress.Loading -> {
-                        LazyColumn(Modifier.padding(top = 8.dp)) {
-                            items(20) {
-                                Shimmer()
-                            }
+                        Box(
+                            Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CoinsLoader()
                         }
                     }
 
@@ -144,6 +146,7 @@ private fun CoinsItem(
 ) {
     Column(
         modifier = Modifier
+            .bounceClick(onClick = { })
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(Color(0xFF293368))

@@ -10,6 +10,7 @@ import com.presentation.contract.CoinsAction
 import com.presentation.contract.CoinsEvent
 import com.presentation.contract.CoinsViewState
 import com.presentation.contract.asIndicator
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import use_case.CoinsUseCase
 
