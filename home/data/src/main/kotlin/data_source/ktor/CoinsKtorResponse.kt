@@ -7,30 +7,32 @@ import model.CoinsEntity
 
 @Serializable
 data class CoinsKtorResponse(
-    @SerialName("result") val coins: List<CoinKtorResponse>,
+    @SerialName("result") val coins: List<CoinKtorResponse>? = null,
 ) {
     fun toDomain(): CoinsEntity {
         return CoinsEntity(
-            feeds = coins.map { it.toDomain() }
+            feeds = coins?.mapNotNull { it.toDomain() } ?: emptyList()
         )
     }
 }
 
 @Serializable
 data class CoinKtorResponse(
-    @SerialName("id") val id: String,
-    @SerialName("icon") val icon: String,
-    @SerialName("symbol") val symbol: String,
-    @SerialName("rank") val rank: Int,
-    @SerialName("price") val price: Double,
+    @SerialName("id") val id: String? = null,
+    @SerialName("name") val name: String? = null,
+    @SerialName("icon") val icon: String? = null,
+    @SerialName("symbol") val symbol: String? = null,
+    @SerialName("rank") val rank: Int? = null,
+    @SerialName("price") val price: Double? = null,
 ) {
-    fun toDomain(): CoinEntity {
+    fun toDomain(): CoinEntity? {
         return CoinEntity(
-            id = id,
-            icon = icon,
-            symbol = symbol,
-            price = price,
-            rank = rank,
+            id = id ?: return null,
+            name = name ?: return null,
+            icon = icon ?: return null,
+            symbol = symbol ?: return null,
+            price = price ?: return null,
+            rank = rank ?: return null,
         )
     }
 }
