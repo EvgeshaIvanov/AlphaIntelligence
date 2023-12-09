@@ -37,6 +37,8 @@ android {
 
 dependencies {
 
+    implementation(libs.coil.compose)
+
     implementation(libs.voyager.kodein)
     implementation(libs.voyager.androidx)
     implementation(libs.voyager.transitions)

@@ -8,32 +8,39 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import coil.compose.AsyncImage
 import com.presentation.contract.CoinsEvent
 import com.presentation.contract.CoinsViewState
 
@@ -67,7 +74,12 @@ class CoinsScreen : Screen {
                     CoinsViewState.Progress.Content -> {
                         LazyColumn(Modifier.padding(top = 8.dp)) {
                             items(items = state.coins) { coin ->
-                                CoinsItem(name = coin.name, price = coin.price.toString())
+                                CoinsItem(
+                                    name = coin.name,
+                                    price = coin.price,
+                                    imageUrl = coin.icon,
+                                    indicator = coin.indicator
+                                )
                             }
                         }
                     }
@@ -124,18 +136,65 @@ fun Shimmer() {
 }
 
 @Composable
-fun CoinsItem(name: String, price: String) {
-    Row(
+private fun CoinsItem(
+    name: String,
+    price: String,
+    imageUrl: String,
+    indicator: CoinsViewState.Indicator?,
+) {
+    Column(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clip(RoundedCornerShape(4.dp))
-            .background(Color.Black)
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color(0xFF293368))
             .padding(16.dp)
             .fillMaxWidth()
     ) {
-        Text(text = name, color = Color.White)
-        Spacer(modifier = Modifier.weight(1f))
-        Text(text = price, color = Color.White)
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            AsyncImage(
+                modifier = Modifier.size(64.dp),
+                model = imageUrl,
+                placeholder = painterResource(id = R.drawable.baseline_mood_bad_24),
+                contentDescription = null
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = price,
+                color = Color.White,
+            )
+        }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = name,
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            indicator?.let {
+                CoinIndicatorItem(indicator = it)
+            }
+        }
+    }
+}
+
+@Composable
+private fun CoinIndicatorItem(indicator: CoinsViewState.Indicator) {
+    val painter = painterResource(
+        id = when (indicator.state) {
+            CoinsViewState.Indicator.State.Increase -> R.drawable.graph_up
+            CoinsViewState.Indicator.State.Decrease -> R.drawable.graph_down
+        }
+    )
+
+    val color = when (indicator.state) {
+        CoinsViewState.Indicator.State.Increase -> Color(0xFF3dfc03)
+        CoinsViewState.Indicator.State.Decrease -> Color(0xFFc91c33)
+    }
+
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(painter = painter, contentDescription = null, tint = color)
+        Text(text = indicator.value, color = color)
     }
 }
 
@@ -147,6 +206,25 @@ private fun ShimmerPreview() {
 
 @Preview(showBackground = true)
 @Composable
+private fun CoinItemIndicatorPreview() {
+    CoinIndicatorItem(
+        indicator = CoinsViewState.Indicator(
+            "2.45",
+            CoinsViewState.Indicator.State.Increase
+        )
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
 private fun CoinsItemPreview() {
-    CoinsItem(name = "Bitcoin", price = "2424.2424")
+    CoinsItem(
+        name = "Bitcoin",
+        price = "$2,424",
+        imageUrl = "",
+        indicator = CoinsViewState.Indicator(
+            value = "2.45",
+            state = CoinsViewState.Indicator.State.Increase
+        )
+    )
 }

@@ -13,6 +13,7 @@ material = "1.10.0"
 ktor = "2.3.5"
 voyager = "1.0.0-rc05"
 kodein = "7.19.0"
+coil-compose = "2.5.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -41,6 +42,9 @@ voyager-transitions = { group = "cafe.adriel.voyager", name = "voyager-transitio
 voyager-kodein = { group = "cafe.adriel.voyager", name = "voyager-kodein", version.ref = "voyager" }
 voyager-tab = { group = "cafe.adriel.voyager", name = "voyager-tab-navigator", version.ref = "voyager" }
 kodein = { group = "org.kodein.di", name = "kodein-di", version.ref = "kodein" }
+
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil-compose" }
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
