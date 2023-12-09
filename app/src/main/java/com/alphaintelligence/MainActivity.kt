@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.transitions.SlideTransition
 import com.alphaintelligence.ui.theme.AlphaIntelligenceTheme
 import com.presentation.CoinsScreen
 
@@ -15,9 +16,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AlphaIntelligenceTheme {
-                Navigator(
-                    screen = CoinsScreen()
-                )
+                Navigator(screen = CoinsScreen()) { navigator ->
+                    SlideTransition(navigator = navigator)
+                }
             }
         }
     }

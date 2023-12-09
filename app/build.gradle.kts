@@ -49,7 +49,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.5.0"
     }
     packaging {
         resources {
@@ -64,6 +64,8 @@ dependencies {
     implementation(libs.voyager.navigation)
     implementation(libs.voyager.kodein)
     implementation(libs.voyager.androidx)
+    implementation(libs.voyager.tab)
+
     implementation(libs.voyager.transitions)
 
     implementation(libs.kodein)
