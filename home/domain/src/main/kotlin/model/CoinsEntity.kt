@@ -15,4 +15,7 @@ data class CoinEntity(
     val symbol: String,
     val rank: Int,
     val price: Double,
+    val priceChange1h: Double,
+    val priceChange1d: Double,
+    val priceChange1w: Double,
 )
