@@ -1,11 +1,6 @@
 package com.presentation
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,27 +31,37 @@ import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil.compose.AsyncImage
+import com.core.common.model.IndicatorItem
 import com.core.compose.CoinsLoader
 import com.core.compose.bounceClick
+import com.core.theme.CryptoColors
+import com.core.theme.CryptoTheme
+import com.core.theme.LocalTypography
+import com.presentation.contract.CoinsAction
 import com.presentation.contract.CoinsEvent
 import com.presentation.contract.CoinsViewState
+import kotlinx.coroutines.flow.collectLatest
 
 class CoinsScreen : Screen {
     @Composable
     override fun Content() {
-        val coinsViewModel = rememberScreenModel<CoinsViewModel>()
+        val viewModel = rememberScreenModel<CoinsViewModel>()
 
-        val state by coinsViewModel.uiState.collectAsState()
+        val state by viewModel.uiState.collectAsState()
 
         val navigator = LocalNavigator.currentOrThrow
 
-        LaunchedEffect(Unit) {
-            coinsViewModel.setEvent(CoinsEvent.OnCreate)
+        LaunchedEffect(viewModel.action) {
+            viewModel.action.collectLatest { action ->
+                when (action) {
+                    is CoinsAction.OpenDetailScreen -> navigator.push(CryptoDetailScreen(action.coinEntity))
+                }
+            }
         }
 
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = Color(0xFF000000)
+            color = CryptoColors.BackgroundPrimary
         ) {
             Crossfade(targetState = state.progress, label = "News") {
                 when (it) {
@@ -78,17 +81,18 @@ class CoinsScreen : Screen {
                                     name = coin.name,
                                     price = coin.price,
                                     imageUrl = coin.icon,
-                                    indicator = coin.indicator
+                                    indicator = coin.indicator,
+                                    onClick = {
+                                        viewModel.setEvent(CoinsEvent.OnItemClick(coin))
+                                    }
                                 )
                             }
                         }
                     }
 
-                    CoinsViewState.Progress.Error -> Box(
-                        modifier = Modifier
-                            .background(Color.Red)
-                            .fillMaxSize()
-                    )
+                    CoinsViewState.Progress.Error -> {
+                        // TODO
+                    }
                 }
             }
         }
@@ -100,14 +104,15 @@ private fun CoinsItem(
     name: String,
     price: String,
     imageUrl: String,
-    indicator: CoinsViewState.Indicator?,
+    indicator: IndicatorItem?,
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
-            .bounceClick(onClick = { })
+            .bounceClick(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(Color(0xFF14213d))
+            .background(CryptoColors.CardColor)
             .padding(16.dp)
             .fillMaxWidth()
     ) {
@@ -117,19 +122,19 @@ private fun CoinsItem(
             AsyncImage(
                 modifier = Modifier.size(64.dp),
                 model = imageUrl,
-                placeholder = painterResource(id = R.drawable.baseline_mood_bad_24),
+                placeholder = painterResource(id = com.core.R.drawable.baseline_mood_bad_24),
                 contentDescription = null
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = price,
-                color = Color.White,
+                style = LocalTypography.current.textPrimary
             )
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = name,
-                color = Color.White
+                style = LocalTypography.current.h1
             )
             Spacer(modifier = Modifier.weight(1f))
             indicator?.let {
@@ -140,35 +145,46 @@ private fun CoinsItem(
 }
 
 @Composable
-private fun CoinIndicatorItem(indicator: CoinsViewState.Indicator) {
+private fun CoinIndicatorItem(indicator: IndicatorItem) {
     val painter = painterResource(
         id = when (indicator.state) {
-            CoinsViewState.Indicator.State.Increase -> R.drawable.graph_up
-            CoinsViewState.Indicator.State.Decrease -> R.drawable.graph_down
+            IndicatorItem.State.Increase -> com.core.R.drawable.graph_up
+            IndicatorItem.State.Decrease -> com.core.R.drawable.graph_down
         }
     )
 
     val color = when (indicator.state) {
-        CoinsViewState.Indicator.State.Increase -> Color(0xFF3dfc03)
-        CoinsViewState.Indicator.State.Decrease -> Color(0xFFc91c33)
+        IndicatorItem.State.Increase -> CryptoColors.Increase
+        IndicatorItem.State.Decrease -> CryptoColors.Decrease
     }
 
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(painter = painter, contentDescription = null, tint = color)
-        Text(text = indicator.value, color = color)
+        Icon(
+            painter = painter,
+            contentDescription = null,
+            tint = color
+        )
+        Text(
+            text = indicator.value,
+            color = color,
+            style = LocalTypography.current.textPrimary
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun CoinsItemPreview() {
-    CoinsItem(
-        name = "Bitcoin",
-        price = "$2,424",
-        imageUrl = "",
-        indicator = CoinsViewState.Indicator(
-            value = "2.45",
-            state = CoinsViewState.Indicator.State.Increase
+    CryptoTheme {
+        CoinsItem(
+            name = "Bitcoin",
+            price = "$2,424",
+            imageUrl = "",
+            indicator = IndicatorItem(
+                value = "2.45",
+                state = IndicatorItem.State.Increase
+            ),
+            onClick = {}
         )
-    )
+    }
 }
