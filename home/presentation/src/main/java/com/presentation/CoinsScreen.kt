@@ -1,11 +1,6 @@
 package com.presentation
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -38,8 +32,10 @@ import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil.compose.AsyncImage
+import com.core.common.model.IndicatorItem
 import com.core.compose.CoinsLoader
 import com.core.compose.bounceClick
+import com.presentation.contract.CoinsAction
 import com.presentation.contract.CoinsEvent
 import com.presentation.contract.CoinsViewState
 
@@ -49,8 +45,20 @@ class CoinsScreen : Screen {
         val coinsViewModel = rememberScreenModel<CoinsViewModel>()
 
         val state by coinsViewModel.uiState.collectAsState()
+        val action by coinsViewModel.action.collectAsState(initial = null)
 
         val navigator = LocalNavigator.currentOrThrow
+
+        LaunchedEffect(action) {
+            when (val someNew = action) {
+                CoinsAction.Close -> TODO()
+                is CoinsAction.OpenDetailScreen -> {
+
+                    navigator.push(CryptoDetailScreen(someNew.coinEntity))
+                }
+                null -> Unit
+            }
+        }
 
         LaunchedEffect(Unit) {
             coinsViewModel.setEvent(CoinsEvent.OnCreate)
@@ -78,7 +86,10 @@ class CoinsScreen : Screen {
                                     name = coin.name,
                                     price = coin.price,
                                     imageUrl = coin.icon,
-                                    indicator = coin.indicator
+                                    indicator = coin.indicator,
+                                    onClick = {
+                                        coinsViewModel.setEvent(CoinsEvent.OnItemClick(coin))
+                                    }
                                 )
                             }
                         }
@@ -100,11 +111,12 @@ private fun CoinsItem(
     name: String,
     price: String,
     imageUrl: String,
-    indicator: CoinsViewState.Indicator?,
+    indicator: IndicatorItem?,
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
-            .bounceClick(onClick = { })
+            .bounceClick(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(Color(0xFF14213d))
@@ -117,7 +129,7 @@ private fun CoinsItem(
             AsyncImage(
                 modifier = Modifier.size(64.dp),
                 model = imageUrl,
-                placeholder = painterResource(id = R.drawable.baseline_mood_bad_24),
+                placeholder = painterResource(id = com.core.R.drawable.baseline_mood_bad_24),
                 contentDescription = null
             )
             Spacer(modifier = Modifier.weight(1f))
@@ -140,17 +152,17 @@ private fun CoinsItem(
 }
 
 @Composable
-private fun CoinIndicatorItem(indicator: CoinsViewState.Indicator) {
+private fun CoinIndicatorItem(indicator: IndicatorItem) {
     val painter = painterResource(
         id = when (indicator.state) {
-            CoinsViewState.Indicator.State.Increase -> R.drawable.graph_up
-            CoinsViewState.Indicator.State.Decrease -> R.drawable.graph_down
+            IndicatorItem.State.Increase -> com.core.R.drawable.graph_up
+            IndicatorItem.State.Decrease -> com.core.R.drawable.graph_down
         }
     )
 
     val color = when (indicator.state) {
-        CoinsViewState.Indicator.State.Increase -> Color(0xFF3dfc03)
-        CoinsViewState.Indicator.State.Decrease -> Color(0xFFc91c33)
+        IndicatorItem.State.Increase -> Color(0xFF3dfc03)
+        IndicatorItem.State.Decrease -> Color(0xFFc91c33)
     }
 
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -166,9 +178,10 @@ private fun CoinsItemPreview() {
         name = "Bitcoin",
         price = "$2,424",
         imageUrl = "",
-        indicator = CoinsViewState.Indicator(
+        indicator = IndicatorItem(
             value = "2.45",
-            state = CoinsViewState.Indicator.State.Increase
-        )
+            state = IndicatorItem.State.Increase
+        ),
+        onClick = {}
     )
 }

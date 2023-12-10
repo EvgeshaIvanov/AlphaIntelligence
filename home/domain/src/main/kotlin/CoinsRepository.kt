@@ -1,4 +1,4 @@
-import model.CoinsEntity
+import com.core.common.model.CoinsEntity
 
 interface CoinsRepository {
 

@@ -63,5 +63,6 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation(project(":home::domain"))
+    implementation(project(":crypto_info::presentation"))
     implementation(project(":core"))
 }

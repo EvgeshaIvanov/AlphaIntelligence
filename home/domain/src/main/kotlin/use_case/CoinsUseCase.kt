@@ -1,6 +1,6 @@
 package use_case
 
-import model.CoinsEntity
+import com.core.common.model.CoinsEntity
 
 interface CoinsUseCase {
 

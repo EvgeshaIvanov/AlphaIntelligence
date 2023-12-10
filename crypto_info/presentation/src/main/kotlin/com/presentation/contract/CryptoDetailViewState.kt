@@ -5,8 +5,8 @@ import com.core.common.model.IndicatorItem
 import com.core.mvi.UiState
 
 @Immutable
-data class CoinsViewState(
-    val coins: List<Coin> = emptyList(),
+data class CryptoDetailViewState(
+    val coin: Coin = Coin(),
     val progress: Progress = Progress.Loading
 ) : UiState {
     data class Coin(

@@ -2,8 +2,10 @@ package data_source.ktor
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import model.CoinEntity
-import model.CoinsEntity
+import com.core.common.model.CoinEntity
+import com.core.common.model.CoinsEntity
+import com.core.common.model.Indicators
+import com.core.common.model.asIndicator
 
 @Serializable
 data class CoinsKtorResponse(
@@ -36,9 +38,11 @@ data class CoinKtorResponse(
             symbol = symbol ?: return null,
             price = price ?: return null,
             rank = rank ?: return null,
-            priceChange1h = priceChange1h ?: return null,
-            priceChange1d = priceChange1d ?: return null,
-            priceChange1w = priceChange1w ?: return null,
+            indicators = Indicators(
+                priceChange1d = priceChange1d?.asIndicator(),
+                priceChange1h = priceChange1h?.asIndicator(),
+                priceChange1w = priceChange1w?.asIndicator()
+            )
         )
     }
 }

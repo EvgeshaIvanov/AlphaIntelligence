@@ -49,6 +49,15 @@ dependencies {
 
     implementation(libs.kodein)
 
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.activity.compose)
+    implementation(libs.material3)
+    implementation(libs.ui)
+    implementation(libs.ui.graphics)
+    debugImplementation(libs.ui.tooling)
+    debugImplementation(libs.ui.test.manifest)
+
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)

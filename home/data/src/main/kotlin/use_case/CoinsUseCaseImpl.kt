@@ -2,7 +2,7 @@ package use_case
 
 import CoinsRepository
 import android.util.Log
-import model.CoinsEntity
+import com.core.common.model.CoinsEntity
 
 class CoinsUseCaseImpl(private val coinsRepository: CoinsRepository) : CoinsUseCase {
     override suspend fun invoke(): CoinsEntity? {
