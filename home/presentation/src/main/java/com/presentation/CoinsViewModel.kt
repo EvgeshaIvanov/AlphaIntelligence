@@ -13,19 +13,22 @@ import com.presentation.contract.CoinsViewState
 import kotlinx.coroutines.launch
 import use_case.CoinsUseCase
 
+@RequiresApi(Build.VERSION_CODES.O)
 class CoinsViewModel(private val useCase: CoinsUseCase) :
     BaseViewModel<CoinsEvent, CoinsViewState, CoinsAction>() {
 
     override fun createInitialState(): CoinsViewState = CoinsViewState()
 
+    init {
+        screenModelScope.launch {
+            loadData()
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun handleEvent(event: CoinsEvent) {
         when (event) {
-            CoinsEvent.OnCreate -> screenModelScope.launch {
-                loadData()
-            }
-
-            is CoinsEvent.OnItemClick -> screenModelScope.launch {
+            is CoinsEvent.OnItemClick ->
                 setAction {
                     CoinsAction.OpenDetailScreen(
                         coinEntity = CoinEntity(
@@ -38,7 +41,6 @@ class CoinsViewModel(private val useCase: CoinsUseCase) :
                         )
                     )
                 }
-            }
         }
     }
 

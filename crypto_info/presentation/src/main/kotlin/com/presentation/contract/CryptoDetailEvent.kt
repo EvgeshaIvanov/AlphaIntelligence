@@ -4,5 +4,5 @@ import com.core.mvi.UiEvent
 
 sealed interface CryptoDetailEvent: UiEvent {
 
-    object OnCreate : CryptoDetailEvent
+    data object OnClose : CryptoDetailEvent
 }

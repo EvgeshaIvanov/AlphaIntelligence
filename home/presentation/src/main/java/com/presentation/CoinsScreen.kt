@@ -23,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,30 +40,23 @@ import com.core.theme.LocalTypography
 import com.presentation.contract.CoinsAction
 import com.presentation.contract.CoinsEvent
 import com.presentation.contract.CoinsViewState
+import kotlinx.coroutines.flow.collectLatest
 
 class CoinsScreen : Screen {
     @Composable
     override fun Content() {
-        val coinsViewModel = rememberScreenModel<CoinsViewModel>()
+        val viewModel = rememberScreenModel<CoinsViewModel>()
 
-        val state by coinsViewModel.uiState.collectAsState()
-        val action by coinsViewModel.action.collectAsState(initial = null)
+        val state by viewModel.uiState.collectAsState()
 
         val navigator = LocalNavigator.currentOrThrow
 
-        LaunchedEffect(action) {
-            when (val someNew = action) {
-                CoinsAction.Close -> TODO()
-                is CoinsAction.OpenDetailScreen -> {
-                    navigator.push(CryptoDetailScreen(someNew.coinEntity))
+        LaunchedEffect(viewModel.action) {
+            viewModel.action.collectLatest { action ->
+                when (action) {
+                    is CoinsAction.OpenDetailScreen -> navigator.push(CryptoDetailScreen(action.coinEntity))
                 }
-
-                null -> Unit
             }
-        }
-
-        LaunchedEffect(Unit) {
-            coinsViewModel.setEvent(CoinsEvent.OnCreate)
         }
 
         Surface(
@@ -91,7 +83,7 @@ class CoinsScreen : Screen {
                                     imageUrl = coin.icon,
                                     indicator = coin.indicator,
                                     onClick = {
-                                        coinsViewModel.setEvent(CoinsEvent.OnItemClick(coin))
+                                        viewModel.setEvent(CoinsEvent.OnItemClick(coin))
                                     }
                                 )
                             }

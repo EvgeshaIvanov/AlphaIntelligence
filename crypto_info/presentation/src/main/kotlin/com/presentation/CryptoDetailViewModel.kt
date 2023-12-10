@@ -14,26 +14,34 @@ class CryptoDetailViewModel(val coinEntity: CoinEntity) :
 
     init {
         screenModelScope.launch {
-            setState {
-                copy(
-                    coin = CryptoDetailViewState.Coin(
-                        id = coinEntity.id,
-                        name = coinEntity.name,
-                        icon = coinEntity.icon,
-                        symbol = coinEntity.symbol,
-                        rank = coinEntity.rank,
-                        price = "0",
-                        indicator = coinEntity.indicators?.priceChange1d
-                    ),
-                    progress = CryptoDetailViewState.Progress.Content
-                )
+            try {
+                setState {
+                    copy(
+                        coin = CryptoDetailViewState.Coin(
+                            id = coinEntity.id,
+                            name = coinEntity.name,
+                            icon = coinEntity.icon,
+                            symbol = coinEntity.symbol,
+                            rank = coinEntity.rank,
+                            price = "0",
+                            indicator = coinEntity.indicators?.priceChange1d
+                        ),
+                        progress = CryptoDetailViewState.Progress.Content
+                    )
+                }
+            } catch (e: Throwable) {
+                setState {
+                    copy(
+                        progress = CryptoDetailViewState.Progress.Error
+                    )
+                }
             }
         }
     }
 
     override fun handleEvent(event: CryptoDetailEvent) {
         when (event) {
-            CryptoDetailEvent.OnCreate -> TODO()
+            CryptoDetailEvent.OnClose -> setAction { CryptoDetailAction.Close }
         }
     }
 
