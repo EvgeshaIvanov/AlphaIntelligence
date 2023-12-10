@@ -1,4 +1,4 @@
-package com.alphaintelligence.ui.theme
+package com.core.theme
 
 import androidx.compose.ui.graphics.Color
 

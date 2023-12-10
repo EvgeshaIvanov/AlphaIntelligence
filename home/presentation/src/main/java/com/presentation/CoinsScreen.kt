@@ -35,6 +35,9 @@ import coil.compose.AsyncImage
 import com.core.common.model.IndicatorItem
 import com.core.compose.CoinsLoader
 import com.core.compose.bounceClick
+import com.core.theme.CryptoColors
+import com.core.theme.CryptoTheme
+import com.core.theme.LocalTypography
 import com.presentation.contract.CoinsAction
 import com.presentation.contract.CoinsEvent
 import com.presentation.contract.CoinsViewState
@@ -53,9 +56,9 @@ class CoinsScreen : Screen {
             when (val someNew = action) {
                 CoinsAction.Close -> TODO()
                 is CoinsAction.OpenDetailScreen -> {
-
                     navigator.push(CryptoDetailScreen(someNew.coinEntity))
                 }
+
                 null -> Unit
             }
         }
@@ -66,7 +69,7 @@ class CoinsScreen : Screen {
 
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = Color(0xFF000000)
+            color = CryptoColors.BackgroundPrimary
         ) {
             Crossfade(targetState = state.progress, label = "News") {
                 when (it) {
@@ -95,11 +98,9 @@ class CoinsScreen : Screen {
                         }
                     }
 
-                    CoinsViewState.Progress.Error -> Box(
-                        modifier = Modifier
-                            .background(Color.Red)
-                            .fillMaxSize()
-                    )
+                    CoinsViewState.Progress.Error -> {
+                        // TODO
+                    }
                 }
             }
         }
@@ -119,7 +120,7 @@ private fun CoinsItem(
             .bounceClick(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(Color(0xFF14213d))
+            .background(CryptoColors.CardColor)
             .padding(16.dp)
             .fillMaxWidth()
     ) {
@@ -135,13 +136,13 @@ private fun CoinsItem(
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = price,
-                color = Color.White,
+                style = LocalTypography.current.textPrimary
             )
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = name,
-                color = Color.White
+                style = LocalTypography.current.h1
             )
             Spacer(modifier = Modifier.weight(1f))
             indicator?.let {
@@ -161,27 +162,37 @@ private fun CoinIndicatorItem(indicator: IndicatorItem) {
     )
 
     val color = when (indicator.state) {
-        IndicatorItem.State.Increase -> Color(0xFF3dfc03)
-        IndicatorItem.State.Decrease -> Color(0xFFc91c33)
+        IndicatorItem.State.Increase -> CryptoColors.Increase
+        IndicatorItem.State.Decrease -> CryptoColors.Decrease
     }
 
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(painter = painter, contentDescription = null, tint = color)
-        Text(text = indicator.value, color = color)
+        Icon(
+            painter = painter,
+            contentDescription = null,
+            tint = color
+        )
+        Text(
+            text = indicator.value,
+            color = color,
+            style = LocalTypography.current.textPrimary
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun CoinsItemPreview() {
-    CoinsItem(
-        name = "Bitcoin",
-        price = "$2,424",
-        imageUrl = "",
-        indicator = IndicatorItem(
-            value = "2.45",
-            state = IndicatorItem.State.Increase
-        ),
-        onClick = {}
-    )
+    CryptoTheme {
+        CoinsItem(
+            name = "Bitcoin",
+            price = "$2,424",
+            imageUrl = "",
+            indicator = IndicatorItem(
+                value = "2.45",
+                state = IndicatorItem.State.Increase
+            ),
+            onClick = {}
+        )
+    }
 }
