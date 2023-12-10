@@ -18,6 +18,7 @@ import com.core.common.model.CoinEntity
 import com.core.compose.CoinsLoader
 import com.core.theme.CryptoColors
 import com.presentation.contract.CryptoDetailAction
+import com.presentation.contract.CryptoDetailEvent
 import com.presentation.contract.CryptoDetailViewState
 import com.presentation.ui.CryptoDetailHeader
 import kotlinx.coroutines.flow.collectLatest
@@ -57,7 +58,8 @@ class CryptoDetailScreen(private val coinEntity: CoinEntity) : Screen {
                             imageUrl = state.coin.icon,
                             title = state.coin.name,
                             price = "0.0",
-                            indicator = state.coin.indicator
+                            indicator = state.coin.indicator,
+                            onBackClick = { viewModel.setEvent(CryptoDetailEvent.OnClose) }
                         )
                     }
 
