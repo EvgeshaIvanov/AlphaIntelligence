@@ -38,6 +38,7 @@ class CoinsViewModel(private val useCase: CoinsUseCase) :
                             symbol = event.coinEntity.symbol,
                             rank = event.coinEntity.rank,
                             price = 0.0,
+                            indicators = event.coinEntity.indicators
                         )
                     )
                 }
@@ -59,7 +60,7 @@ class CoinsViewModel(private val useCase: CoinsUseCase) :
                             symbol = coin.symbol,
                             rank = coin.rank,
                             price = formatPrice(coin.price),
-                            indicator = coin.indicators?.priceChange1d
+                            indicators = coin.indicators
                         )
                     } ?: emptyList(),
                     progress = CoinsViewState.Progress.Content

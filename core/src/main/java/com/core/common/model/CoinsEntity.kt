@@ -20,7 +20,7 @@ data class CoinEntity(
 
 @Serializable
 data class IndicatorItem(
-    val value: String,
+    val value: Float,
     val state: State,
 ) {
     enum class State {
@@ -35,10 +35,10 @@ data class Indicators(
     val priceChange1w: IndicatorItem?,
 )
 
-fun Double?.asIndicator(): IndicatorItem? {
+fun Float?.asIndicator(): IndicatorItem? {
     return if (this != null)
         IndicatorItem(
-            value = "$this%",
+            value = this,
             state = when {
                 this >= 0.0 -> IndicatorItem.State.Increase
                 else -> IndicatorItem.State.Decrease

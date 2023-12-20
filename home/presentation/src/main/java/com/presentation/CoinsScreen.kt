@@ -81,7 +81,7 @@ class CoinsScreen : Screen {
                                     name = coin.name,
                                     price = coin.price,
                                     imageUrl = coin.icon,
-                                    indicator = coin.indicator,
+                                    indicator = coin.indicators?.priceChange1d,
                                     onClick = {
                                         viewModel.setEvent(CoinsEvent.OnItemClick(coin))
                                     }
@@ -165,7 +165,7 @@ private fun CoinIndicatorItem(indicator: IndicatorItem) {
             tint = color
         )
         Text(
-            text = indicator.value,
+            text = "${indicator.value}%",
             color = color,
             style = LocalTypography.current.textPrimary
         )
@@ -181,7 +181,7 @@ private fun CoinsItemPreview() {
             price = "$2,424",
             imageUrl = "",
             indicator = IndicatorItem(
-                value = "2.45",
+                value = 2.45f,
                 state = IndicatorItem.State.Increase
             ),
             onClick = {}

@@ -2,6 +2,7 @@ package com.presentation
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -20,6 +21,8 @@ import com.core.theme.CryptoColors
 import com.presentation.contract.CryptoDetailAction
 import com.presentation.contract.CryptoDetailEvent
 import com.presentation.contract.CryptoDetailViewState
+import com.presentation.contract.toChartsData
+import com.presentation.ui.CryptoDetailGraph
 import com.presentation.ui.CryptoDetailHeader
 import kotlinx.coroutines.flow.collectLatest
 
@@ -54,13 +57,18 @@ class CryptoDetailScreen(private val coinEntity: CoinEntity) : Screen {
                     }
 
                     CryptoDetailViewState.Progress.Content -> {
-                        CryptoDetailHeader(
-                            imageUrl = state.coin.icon,
-                            title = state.coin.name,
-                            price = "0.0",
-                            indicator = state.coin.indicator,
-                            onBackClick = { viewModel.setEvent(CryptoDetailEvent.OnClose) }
-                        )
+                        Column {
+                            CryptoDetailHeader(
+                                imageUrl = state.coin.icon,
+                                title = state.coin.name,
+                                price = "0.0",
+                                indicator = state.coin.indicators?.priceChange1d,
+                                onBackClick = { viewModel.setEvent(CryptoDetailEvent.OnClose) }
+                            )
+                            CryptoDetailGraph(
+                                charsData = state.coin.toChartsData()
+                            )
+                        }
                     }
 
                     CryptoDetailViewState.Progress.Error -> {

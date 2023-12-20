@@ -26,9 +26,9 @@ data class CoinKtorResponse(
     @SerialName("symbol") val symbol: String? = null,
     @SerialName("rank") val rank: Int? = null,
     @SerialName("price") val price: Double? = null,
-    @SerialName("priceChange1h") val priceChange1h: Double? = null,
-    @SerialName("priceChange1d") val priceChange1d: Double? = null,
-    @SerialName("priceChange1w") val priceChange1w: Double? = null,
+    @SerialName("priceChange1h") val priceChange1h: Float? = null,
+    @SerialName("priceChange1d") val priceChange1d: Float? = null,
+    @SerialName("priceChange1w") val priceChange1w: Float? = null,
 ) {
     fun toDomain(): CoinEntity? {
         return CoinEntity(

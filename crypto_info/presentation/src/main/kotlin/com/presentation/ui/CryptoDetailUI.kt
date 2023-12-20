@@ -65,7 +65,7 @@ internal fun CryptoDetailHeader(
             indicator?.let {
                 Text(
                     modifier = Modifier.padding(top = 8.dp),
-                    text = it.value,
+                    text = "${it.value}%",
                     style = LocalTypography.current.h1
                 )
             }
@@ -103,11 +103,6 @@ private fun CryptoDetailToolbar(
         }
         Divider(color = CryptoColors.CardColor, thickness = 4.dp)
     }
-}
-
-@Composable
-private fun CryptoDetailGraph() {
-    // TODO
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFF000000)

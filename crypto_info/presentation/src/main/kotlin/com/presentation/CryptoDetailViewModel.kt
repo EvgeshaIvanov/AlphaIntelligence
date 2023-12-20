@@ -24,7 +24,7 @@ class CryptoDetailViewModel(val coinEntity: CoinEntity) :
                             symbol = coinEntity.symbol,
                             rank = coinEntity.rank,
                             price = "0",
-                            indicator = coinEntity.indicators?.priceChange1d
+                            indicators = coinEntity.indicators
                         ),
                         progress = CryptoDetailViewState.Progress.Content
                     )
