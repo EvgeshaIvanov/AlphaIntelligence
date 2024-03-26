@@ -37,6 +37,11 @@ android {
 
 dependencies {
 
+    // Test rules and transitive dependencies:
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.4")
+// Needed for createAndroidComposeRule, but not createComposeRule:
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.5.4")
+
     implementation(libs.coil.compose)
 
     implementation(libs.voyager.kodein)
@@ -63,5 +68,6 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation(project(":home::domain"))
+    implementation(project(":crypto_info::presentation"))
     implementation(project(":core"))
 }

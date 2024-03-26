@@ -2,8 +2,10 @@ package data_source.ktor
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import model.CoinEntity
-import model.CoinsEntity
+import com.core.common.model.CoinEntity
+import com.core.common.model.CoinsEntity
+import com.core.common.model.Indicators
+import com.core.common.model.asIndicator
 
 @Serializable
 data class CoinsKtorResponse(
@@ -24,9 +26,9 @@ data class CoinKtorResponse(
     @SerialName("symbol") val symbol: String? = null,
     @SerialName("rank") val rank: Int? = null,
     @SerialName("price") val price: Double? = null,
-    @SerialName("priceChange1h") val priceChange1h: Double? = null,
-    @SerialName("priceChange1d") val priceChange1d: Double? = null,
-    @SerialName("priceChange1w") val priceChange1w: Double? = null,
+    @SerialName("priceChange1h") val priceChange1h: Float? = null,
+    @SerialName("priceChange1d") val priceChange1d: Float? = null,
+    @SerialName("priceChange1w") val priceChange1w: Float? = null,
 ) {
     fun toDomain(): CoinEntity? {
         return CoinEntity(
@@ -36,9 +38,11 @@ data class CoinKtorResponse(
             symbol = symbol ?: return null,
             price = price ?: return null,
             rank = rank ?: return null,
-            priceChange1h = priceChange1h ?: return null,
-            priceChange1d = priceChange1d ?: return null,
-            priceChange1w = priceChange1w ?: return null,
+            indicators = Indicators(
+                priceChange1d = priceChange1d?.asIndicator(),
+                priceChange1h = priceChange1h?.asIndicator(),
+                priceChange1w = priceChange1w?.asIndicator()
+            )
         )
     }
 }

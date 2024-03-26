@@ -1,6 +1,7 @@
 package com.presentation.contract
 
 import androidx.compose.runtime.Immutable
+import com.core.common.model.Indicators
 import com.core.mvi.UiState
 
 @Immutable
@@ -15,29 +16,10 @@ data class CoinsViewState(
         val symbol: String = "",
         val rank: Int = 0,
         val price: String = "$0.0",
-        val indicator: Indicator? = null,
+        val indicators: Indicators? = null,
     )
-
-    data class Indicator(
-        val value: String,
-        val state: State,
-    ) {
-        enum class State {
-            Increase, Decrease
-        }
-    }
 
     enum class Progress {
         Loading, Content, Error
     }
-}
-
-internal fun Double.asIndicator(): CoinsViewState.Indicator {
-    return CoinsViewState.Indicator(
-        value = "$this%",
-        state =  when {
-            this >= 0.0 -> CoinsViewState.Indicator.State.Increase
-            else -> CoinsViewState.Indicator.State.Decrease
-        }
-    )
 }

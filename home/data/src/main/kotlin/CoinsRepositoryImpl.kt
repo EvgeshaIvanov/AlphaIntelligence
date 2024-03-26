@@ -1,5 +1,5 @@
 import data_source.ktor.CoinsKtorDataSource
-import model.CoinsEntity
+import com.core.common.model.CoinsEntity
 
 class CoinsRepositoryImpl(
     private val coinsKtorDataSource: CoinsKtorDataSource

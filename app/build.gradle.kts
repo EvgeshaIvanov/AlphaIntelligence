@@ -89,4 +89,6 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":home::data"))
     implementation(project(":home::presentation"))
+    implementation(project(":crypto_info::data"))
+    implementation(project(":crypto_info::presentation"))
 }
