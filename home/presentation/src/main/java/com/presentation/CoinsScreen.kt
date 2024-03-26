@@ -76,7 +76,12 @@ class CoinsScreen : Screen {
 
                     CoinsViewState.Progress.Content -> {
                         LazyColumn(Modifier.padding(top = 8.dp)) {
-                            items(items = state.coins) { coin ->
+                            items(
+                                key = { coin ->
+                                    "item_key_${coin.name}_${coin.id}"
+                                },
+                                items = state.coins
+                            ) { coin ->
                                 CoinsItem(
                                     name = coin.name,
                                     price = coin.price,

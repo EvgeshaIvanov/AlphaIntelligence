@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import use_case.CoinsUseCase
 
 @RequiresApi(Build.VERSION_CODES.O)
-class CoinsViewModel(private val useCase: CoinsUseCase) :
+class CoinsViewModel(private val coinsUseCase: CoinsUseCase) :
     BaseViewModel<CoinsEvent, CoinsViewState, CoinsAction>() {
 
     override fun createInitialState(): CoinsViewState = CoinsViewState()
@@ -48,7 +48,7 @@ class CoinsViewModel(private val useCase: CoinsUseCase) :
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun loadData() {
         try {
-            val result = useCase.invoke()
+            val result = coinsUseCase.invoke()
 
             setState {
                 this.copy(
@@ -67,7 +67,6 @@ class CoinsViewModel(private val useCase: CoinsUseCase) :
                 )
             }
         } catch (e: Throwable) {
-            Log.i("EugeneData", e.toString())
             setState {
                 copy(
                     progress = CoinsViewState.Progress.Error
@@ -75,5 +74,4 @@ class CoinsViewModel(private val useCase: CoinsUseCase) :
             }
         }
     }
-
 }
