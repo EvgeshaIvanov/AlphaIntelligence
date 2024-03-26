@@ -1,7 +1,7 @@
 package com.core.mvi
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.coroutineScope
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.core.mvi.time_machine.TimeCapsule
 import com.core.mvi.time_machine.TimeTravelCapsule
 import kotlinx.coroutines.channels.Channel
@@ -28,10 +28,9 @@ abstract class BaseViewModel<Event : UiEvent, State : UiState, Action : UiAction
     private val _action: Channel<Action> = Channel()
     val action = _action.receiveAsFlow()
 
-    val timeCapsule: TimeCapsule<State> = TimeTravelCapsule { storedState ->
+    private val timeCapsule: TimeCapsule<State> = TimeTravelCapsule { storedState ->
         _uiState.tryEmit(storedState)
     }
-
 
     init {
         subscribeEvents()
@@ -42,7 +41,7 @@ abstract class BaseViewModel<Event : UiEvent, State : UiState, Action : UiAction
      * Start listening to Event
      */
     private fun subscribeEvents() {
-        coroutineScope.launch {
+        screenModelScope.launch {
             event.collect {
                 handleEvent(it)
             }
@@ -59,7 +58,7 @@ abstract class BaseViewModel<Event : UiEvent, State : UiState, Action : UiAction
      */
     fun setEvent(event: Event) {
         val newEvent = event
-        coroutineScope.launch { _event.emit(newEvent) }
+        screenModelScope.launch { _event.emit(newEvent) }
     }
 
     /**
@@ -76,6 +75,6 @@ abstract class BaseViewModel<Event : UiEvent, State : UiState, Action : UiAction
      */
     protected fun setAction(builder: () -> Action) {
         val effectValue = builder()
-        coroutineScope.launch { _action.send(effectValue) }
+        screenModelScope.launch { _action.send(effectValue) }
     }
 }

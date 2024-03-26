@@ -1,5 +1,6 @@
 package com.core.mvi.time_machine
 
+import android.util.Log
 import com.core.mvi.UiState
 
 interface TimeCapsule<S : UiState> {
@@ -15,6 +16,7 @@ class TimeTravelCapsule<S : UiState>(
     private val states = mutableListOf<S>()
 
     override fun addState(state: S) {
+        Log.i("TimeTravelCapsule", "State create/update $state")
         states.add(state)
     }
 

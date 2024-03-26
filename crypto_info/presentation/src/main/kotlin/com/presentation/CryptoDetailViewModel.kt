@@ -12,7 +12,17 @@ class CryptoDetailViewModel(val coinEntity: CoinEntity) :
     BaseViewModel<CryptoDetailEvent, CryptoDetailViewState, CryptoDetailAction>() {
     override fun createInitialState(): CryptoDetailViewState = CryptoDetailViewState()
 
+    override fun handleEvent(event: CryptoDetailEvent) {
+        when (event) {
+            CryptoDetailEvent.OnClose -> setAction { CryptoDetailAction.Close }
+        }
+    }
+
     init {
+        onCreate()
+    }
+
+    private fun onCreate() {
         screenModelScope.launch {
             try {
                 setState {
@@ -38,11 +48,4 @@ class CryptoDetailViewModel(val coinEntity: CoinEntity) :
             }
         }
     }
-
-    override fun handleEvent(event: CryptoDetailEvent) {
-        when (event) {
-            CryptoDetailEvent.OnClose -> setAction { CryptoDetailAction.Close }
-        }
-    }
-
 }
