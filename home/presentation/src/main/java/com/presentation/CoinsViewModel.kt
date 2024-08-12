@@ -1,7 +1,6 @@
 package com.presentation
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.core.common.formatPrice
@@ -48,7 +47,7 @@ class CoinsViewModel(private val coinsUseCase: CoinsUseCase) :
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun loadData() {
         try {
-            val result = coinsUseCase.invoke()
+            val result = coinsUseCase()
 
             setState {
                 this.copy(

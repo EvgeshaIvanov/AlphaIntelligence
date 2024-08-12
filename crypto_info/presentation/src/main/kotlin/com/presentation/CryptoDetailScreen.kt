@@ -65,9 +65,9 @@ class CryptoDetailScreen(private val coinEntity: CoinEntity) : Screen {
                                 indicator = state.coin.indicators?.priceChange1d,
                                 onBackClick = { viewModel.setEvent(CryptoDetailEvent.OnClose) }
                             )
-                            CryptoDetailGraph(
-                                charsData = state.coin.toChartsData()
-                            )
+//                            CryptoDetailGraph(
+//                                charsData = state.coin.toChartsData()
+//                            )
                         }
                     }
 
