@@ -4,5 +4,5 @@ import com.core.common.model.CoinsEntity
 
 interface CoinsUseCase {
 
-    suspend fun invoke(): CoinsEntity?
+    suspend operator fun invoke(): CoinsEntity?
 }
