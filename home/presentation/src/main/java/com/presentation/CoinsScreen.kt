@@ -1,5 +1,6 @@
 package com.presentation
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -34,6 +35,7 @@ import coil.compose.AsyncImage
 import com.core.common.model.IndicatorItem
 import com.core.compose.CoinsLoader
 import com.core.compose.bounceClick
+import com.core.compose.rememberClick
 import com.core.theme.CryptoColors
 import com.core.theme.CryptoTheme
 import com.core.theme.LocalTypography
@@ -43,9 +45,12 @@ import com.presentation.contract.CoinsViewState
 import kotlinx.coroutines.flow.collectLatest
 
 class CoinsScreen : Screen {
+    // TODO(remove this annotation later)
+    @SuppressLint("NewApi")
     @Composable
     override fun Content() {
         val viewModel = rememberScreenModel<CoinsViewModel>()
+        val handler = rememberClick(viewModel::handleEvent)
 
         val state by viewModel.uiState.collectAsState()
 
@@ -88,7 +93,8 @@ class CoinsScreen : Screen {
                                     imageUrl = coin.icon,
                                     indicator = coin.indicators?.priceChange1d,
                                     onClick = {
-                                        viewModel.setEvent(CoinsEvent.OnItemClick(coin))
+                                        handler.invoke(CoinsEvent.OnItemClick(coin))
+//                                        viewModel.setEvent(CoinsEvent.OnItemClick(coin))
                                     }
                                 )
                             }
