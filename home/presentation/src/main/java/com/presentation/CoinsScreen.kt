@@ -94,7 +94,6 @@ class CoinsScreen : Screen {
                                     indicator = coin.indicators?.priceChange1d,
                                     onClick = {
                                         handler.invoke(CoinsEvent.OnItemClick(coin))
-//                                        viewModel.setEvent(CoinsEvent.OnItemClick(coin))
                                     }
                                 )
                             }
