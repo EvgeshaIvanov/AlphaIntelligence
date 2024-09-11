@@ -2,6 +2,18 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.compose.compiler)
+}
+
+composeCompiler {
+    enableStrongSkippingMode = false
+
+    includeSourceInformation = true
+    includeTraceMarkers = true
+    generateFunctionKeyMetaClasses = true
+
+    reportsDestination = layout.buildDirectory.dir("compose_compiler")
+    metricsDestination = layout.buildDirectory.dir("compose_compiler_desti")
 }
 
 android {
@@ -29,9 +41,6 @@ android {
     }
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.0"
     }
 }
 
