@@ -14,6 +14,7 @@ ktor = "2.3.11"
 voyager = "1.0.0-rc10"
 kodein = "7.21.2"
 coil-compose = "2.6.0"
+kotlinx-collections = "0.3.7"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -42,6 +43,7 @@ voyager-transitions = { group = "cafe.adriel.voyager", name = "voyager-transitio
 voyager-kodein = { group = "cafe.adriel.voyager", name = "voyager-kodein", version.ref = "voyager" }
 voyager-tab = { group = "cafe.adriel.voyager", name = "voyager-tab-navigator", version.ref = "voyager" }
 kodein = { group = "org.kodein.di", name = "kodein-di", version.ref = "kodein" }
+kotlinx-collections = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinx-collections" }
 
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil-compose" }
 
