@@ -6,7 +6,14 @@ plugins {
 }
 
 composeCompiler {
-    enableStrongSkippingMode = true
+    enableStrongSkippingMode = false
+
+    includeSourceInformation = true
+    includeTraceMarkers = true
+    generateFunctionKeyMetaClasses = true
+
+    reportsDestination = layout.buildDirectory.dir("compose_compiler")
+    metricsDestination = layout.buildDirectory.dir("compose_compiler_desti")
 }
 
 android {
