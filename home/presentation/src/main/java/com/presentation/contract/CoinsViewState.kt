@@ -3,10 +3,12 @@ package com.presentation.contract
 import androidx.compose.runtime.Immutable
 import com.core.common.model.Indicators
 import com.core.mvi.UiState
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Immutable
 data class CoinsViewState(
-    val coins: List<Coin> = emptyList(),
+    val coins: ImmutableList<Coin> = persistentListOf(),
     val progress: Progress = Progress.Loading
 ) : UiState {
     data class Coin(

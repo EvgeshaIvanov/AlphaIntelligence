@@ -1,7 +1,5 @@
 package com.presentation
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.core.common.formatPrice
 import com.core.common.model.CoinEntity
@@ -9,10 +7,10 @@ import com.core.mvi.BaseViewModel
 import com.presentation.contract.CoinsAction
 import com.presentation.contract.CoinsEvent
 import com.presentation.contract.CoinsViewState
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import use_case.CoinsUseCase
 
-@RequiresApi(Build.VERSION_CODES.O)
 class CoinsViewModel(
     private val coinsUseCase: CoinsUseCase,
 ) : BaseViewModel<CoinsEvent, CoinsViewState, CoinsAction>() {
@@ -21,16 +19,16 @@ class CoinsViewModel(
 
     init {
         screenModelScope.launch {
-            coinsUseCase()
-                .runCatching {
-                    val coinEntity = this?.feeds
+            runCatching { coinsUseCase()?.feeds }
+                .onSuccess { feeds ->
                     setState {
                         copy(
-                            coins = coinEntity?.map(::toCoinsViewState).orEmpty(),
+                            coins = feeds?.map(::toCoinsViewState).orEmpty().toImmutableList(),
                             progress = CoinsViewState.Progress.Content
                         )
                     }
-                }.onFailure {
+                }
+                .onFailure {
                     setState {
                         copy(progress = CoinsViewState.Progress.Error)
                     }
