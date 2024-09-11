@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.voyager.androidx)
     implementation(libs.voyager.transitions)
     implementation(libs.voyager.navigation)
+    implementation(libs.kotlinx.collections)
 
     implementation(libs.kodein)
 
