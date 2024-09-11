@@ -1,6 +1,5 @@
 package com.presentation
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -45,8 +44,7 @@ import com.presentation.contract.CoinsViewState
 import kotlinx.coroutines.flow.collectLatest
 
 class CoinsScreen : Screen {
-    // TODO(remove this annotation later)
-    @SuppressLint("NewApi")
+
     @Composable
     override fun Content() {
         val viewModel = rememberScreenModel<CoinsViewModel>()
