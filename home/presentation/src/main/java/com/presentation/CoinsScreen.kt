@@ -16,7 +16,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.core.compose.CoinsLoader
 import com.core.compose.rememberClick
-import com.core.theme.CryptoColors
+import com.core.theme.Crypto
 import com.presentation.contract.CoinsAction
 import com.presentation.contract.CoinsEvent
 import com.presentation.contract.CoinsViewState
@@ -44,7 +44,7 @@ class CoinsScreen : Screen {
 
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = CryptoColors.BackgroundPrimary
+            color = Crypto.color.background.primary
         ) {
             Crossfade(
                 label = "News",

@@ -22,9 +22,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.core.common.model.IndicatorItem
 import com.core.compose.bounceClick
-import com.core.theme.CryptoColors
+import com.core.theme.Crypto
 import com.core.theme.CryptoTheme
-import com.core.theme.LocalTypography
 import com.presentation.contract.CoinsViewState.Coin
 import kotlinx.collections.immutable.ImmutableList
 
@@ -64,7 +63,7 @@ private fun CoinsItem(
             .bounceClick(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(CryptoColors.CardColor)
+            .background(Crypto.color.background.secondary)
             .padding(16.dp)
             .fillMaxWidth()
     ) {
@@ -80,13 +79,13 @@ private fun CoinsItem(
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = price,
-                style = LocalTypography.current.textPrimary
+                style = Crypto.typography.textPrimary
             )
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = name,
-                style = LocalTypography.current.h1
+                style = Crypto.typography.h1
             )
             Spacer(modifier = Modifier.weight(1f))
             indicator?.let {
@@ -106,8 +105,8 @@ private fun CoinIndicatorItem(indicator: IndicatorItem) {
     )
 
     val color = when (indicator.state) {
-        IndicatorItem.State.Increase -> CryptoColors.Increase
-        IndicatorItem.State.Decrease -> CryptoColors.Decrease
+        IndicatorItem.State.Increase -> Crypto.color.success.primary
+        IndicatorItem.State.Decrease -> Crypto.color.error.primary
     }
 
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -119,7 +118,7 @@ private fun CoinIndicatorItem(indicator: IndicatorItem) {
         Text(
             text = "${indicator.value}%",
             color = color,
-            style = LocalTypography.current.textPrimary
+            style = Crypto.typography.textPrimary
         )
     }
 }

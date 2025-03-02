@@ -10,6 +10,6 @@ data class CryptoTypography(
     val textPrimary: TextStyle,
 )
 
-val LocalTypography = staticCompositionLocalOf<CryptoTypography> {
+internal val LocalTypography = staticCompositionLocalOf<CryptoTypography> {
     error("No font provided")
 }

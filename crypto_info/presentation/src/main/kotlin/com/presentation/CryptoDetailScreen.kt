@@ -17,12 +17,10 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.core.common.model.CoinEntity
 import com.core.compose.CoinsLoader
-import com.core.theme.CryptoColors
+import com.core.theme.Crypto
 import com.presentation.contract.CryptoDetailAction
 import com.presentation.contract.CryptoDetailEvent
 import com.presentation.contract.CryptoDetailViewState
-import com.presentation.contract.toChartsData
-import com.presentation.ui.CryptoDetailGraph
 import com.presentation.ui.CryptoDetailHeader
 import kotlinx.coroutines.flow.collectLatest
 
@@ -46,7 +44,7 @@ class CryptoDetailScreen(private val coinEntity: CoinEntity) : Screen {
 
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = CryptoColors.BackgroundPrimary
+            color = Crypto.color.background.primary
         ) {
             Crossfade(targetState = state.progress, label = "visibleState") { visibleState ->
                 when (visibleState) {

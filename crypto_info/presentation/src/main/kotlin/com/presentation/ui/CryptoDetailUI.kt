@@ -22,9 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.core.common.model.IndicatorItem
-import com.core.theme.CryptoColors
+import com.core.theme.Crypto
 import com.core.theme.CryptoTheme
-import com.core.theme.LocalTypography
 
 @Composable
 internal fun CryptoDetailHeader(
@@ -55,18 +54,18 @@ internal fun CryptoDetailHeader(
             Text(
                 modifier = Modifier.padding(top = 16.dp),
                 text = title,
-                style = LocalTypography.current.h1
+                style = Crypto.typography.h1
             )
             Text(
                 modifier = Modifier.padding(top = 8.dp),
                 text = price,
-                style = LocalTypography.current.h1
+                style = Crypto.typography.h1
             )
             indicator?.let {
                 Text(
                     modifier = Modifier.padding(top = 8.dp),
                     text = "${it.value}%",
-                    style = LocalTypography.current.h1
+                    style = Crypto.typography.h1
                 )
             }
         }
@@ -96,12 +95,12 @@ private fun CryptoDetailToolbar(
             ) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
-                    tint = CryptoColors.TextPrimary,
+                    tint = Crypto.color.text.secondary,
                     contentDescription = null
                 )
             }
         }
-        Divider(color = CryptoColors.CardColor, thickness = 4.dp)
+        Divider(color = Crypto.color.text.secondary, thickness = 4.dp)
     }
 }
 
